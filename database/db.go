@@ -11,8 +11,7 @@ import (
 	"x-ui/database/model"
 	"x-ui/xray"
 
-	"gorm.io/driver/postgres"
-	//"gorm.io/driver/sqlite"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
@@ -87,8 +86,7 @@ func InitDB(dbPath string) error {
 	c := &gorm.Config{
 		Logger: gormLogger,
 	}
-	//db, err = gorm.Open(sqlite.Open(dbPath), c)
-	db, err = gorm.Open(postgres.Open("host=localhost user=postgres password=postgres dbname=3xui port=5432 sslmode=disable TimeZone=UTC"), c)
+	db, err = gorm.Open(sqlite.Open(dbPath), c)
 	if err != nil {
 		return err
 	}
