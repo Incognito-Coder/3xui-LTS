@@ -16,6 +16,10 @@
 
 **Si este proyecto te es útil, podrías considerar darle una**:star2:
 
+<p align="left"><a href="#"><img width="125" src="https://github.com/Incognito-Coder/3xui-LTS/assets/115543613/7aa895dd-048a-42e7-989b-afd41a74e2e1" alt="Image"></a></p>
+
+- USDT (TRC20): `TXncxkvhkDWGts487Pjqq1qT9JmwRUz8CC`
+
 ## Instalar y Actualizar
 
 ```
@@ -460,7 +464,7 @@ XUI_BIN_FOLDER="bin" XUI_DB_FOLDER="/etc/x-ui" go build main.go
 ## Un agradecimiento especial a
 
 - [alireza0](https://github.com/alireza0/)
-- [MHSanaei](https://github.com/MHSanaei)
+
 ## Reconocimientos
 
 - [Iran v2ray rules](https://github.com/chocolate4u/Iran-v2ray-rules) (Licencia: **GPL-3.0**): _Reglas de enrutamiento mejoradas de v2ray/xray y v2ray/xray-clients con dominios iraníes integrados y un enfoque en seguridad y bloqueo de anuncios._

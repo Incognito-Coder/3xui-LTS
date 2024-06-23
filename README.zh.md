@@ -16,6 +16,10 @@
 
 **如果此项目对你有用，请给一个**:star2:
 
+<p align="left"><a href="#"><img width="125" src="https://github.com/Incognito-Coder/3xui-LTS/assets/115543613/7aa895dd-048a-42e7-989b-afd41a74e2e1" alt="Image"></a></p>
+
+- USDT (TRC20): `TXncxkvhkDWGts487Pjqq1qT9JmwRUz8CC`
+
 ## 安装 & 升级
 
 ```
@@ -459,7 +463,6 @@ XUI_BIN_FOLDER="bin" XUI_DB_FOLDER="/etc/x-ui" go build main.go
 ## 特别感谢
 
 - [alireza0](https://github.com/alireza0/)
-- [MHSanaei](https://github.com/MHSanaei)
 
 ## 致谢
 
