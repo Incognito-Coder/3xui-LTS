@@ -88,7 +88,7 @@ func InitDB(dbPath string) error {
 		Logger: gormLogger,
 	}
 	//db, err = gorm.Open(sqlite.Open(dbPath), c)
-	db, err = gorm.Open(postgres.Open("host=localhost user=admin password=admin dbname=3xui port=9920 sslmode=disable TimeZone=UTC"), c)
+	db, err = gorm.Open(postgres.Open("host=localhost user=postgres password=postgres dbname=3xui port=9920 sslmode=disable TimeZone=Asia/Tehran"), c)
 	if err != nil {
 		return err
 	}
