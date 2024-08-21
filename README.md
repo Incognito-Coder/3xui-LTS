@@ -32,10 +32,10 @@ bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.
 
 ## Install Custom Version
 
-To install your desired version, add the version to the end of the installation command. e.g., ver `v2.3.10`:
+To install your desired version, add the version to the end of the installation command. e.g., ver `v2.3.13`:
 
 ```
-bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh) v2.3.10
+bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh) v2.3.13
 ```
 
 ## SSL Certificate
@@ -250,6 +250,7 @@ Our platform offers compatibility with a diverse range of architectures and devi
 - Spanish
 - Indonesian 
 - Ukrainian
+- Turkish
 
 
 ## Features
@@ -258,7 +259,7 @@ Our platform offers compatibility with a diverse range of architectures and devi
 - Search within all inbounds and clients
 - Dark/Light theme
 - Supports multi-user and multi-protocol
-- Supports protocols, including VMess, VLESS, Trojan, Shadowsocks, Dokodemo-door, Socks, HTTP, wireguard
+- Supports protocols, including VMESS, VLESS, Trojan, Shadowsocks, Dokodemo-door, Socks, HTTP, wireguard
 - Supports XTLS native Protocols, including RPRX-Direct, Vision, REALITY
 - Traffic statistics, traffic limit, expiration time limit
 - Customizable Xray configuration templates
