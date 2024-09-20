@@ -36,10 +36,11 @@ func (j *CheckClientIpJob) Run() {
 	}
 
 	shouldClearAccessLog := false
+	iplimitActive := j.hasLimitIp()
 	f2bInstalled := j.checkFail2BanInstalled()
-	isAccessLogAvailable := j.checkAccessLogAvailable(f2bInstalled)
+	isAccessLogAvailable := j.checkAccessLogAvailable(iplimitActive)
 
-	if j.hasLimitIp() {
+	if iplimitActive {
 		if f2bInstalled && isAccessLogAvailable {
 			shouldClearAccessLog = j.processLogFile()
 		} else {
@@ -49,7 +50,7 @@ func (j *CheckClientIpJob) Run() {
 		}
 	}
 
-	if shouldClearAccessLog || isAccessLogAvailable && time.Now().Unix()-j.lastClear > 3600 {
+	if shouldClearAccessLog || (isAccessLogAvailable && time.Now().Unix()-j.lastClear > 3600) {
 		j.clearAccessLog()
 	}
 }
@@ -122,13 +123,13 @@ func (j *CheckClientIpJob) processLogFile() bool {
 	for scanner.Scan() {
 		line := scanner.Text()
 
-		ipRegx, _ := regexp.Compile(`(\d+\.\d+\.\d+\.\d+).* accepted`)
-		emailRegx, _ := regexp.Compile(`email:.+`)
+		ipRegx, _ := regexp.Compile(`from \[?([0-9a-fA-F:.]+)\]?:\d+ accepted`)
+		emailRegx, _ := regexp.Compile(`email: (\S+)$`)
 
 		matches := ipRegx.FindStringSubmatch(line)
 		if len(matches) > 1 {
 			ip := matches[1]
-			if ip == "127.0.0.1" {
+			if ip == "127.0.0.1" || ip == "::1" {
 				continue
 			}
 
@@ -136,7 +137,7 @@ func (j *CheckClientIpJob) processLogFile() bool {
 			if matchesEmail == "" {
 				continue
 			}
-			matchesEmail = strings.TrimSpace(strings.Split(matchesEmail, "email: ")[1])
+			matchesEmail = strings.Split(matchesEmail, "email: ")[1]
 
 			if InboundClientIps[matchesEmail] != nil {
 				if j.contains(InboundClientIps[matchesEmail], ip) {
@@ -174,28 +175,20 @@ func (j *CheckClientIpJob) checkFail2BanInstalled() bool {
 	return err == nil
 }
 
-func (j *CheckClientIpJob) checkAccessLogAvailable(handleWarning bool) bool {
-	isAvailable := true
-	warningMsg := ""
+func (j *CheckClientIpJob) checkAccessLogAvailable(iplimitActive bool) bool {
 	accessLogPath, err := xray.GetAccessLogPath()
 	if err != nil {
 		return false
 	}
 
-	// access log is not available if it is set to 'none' or an empty string
-	switch accessLogPath {
-	case "none":
-		warningMsg = "Access log is set to 'none', check your Xray Configs"
-		isAvailable = false
-	case "":
-		warningMsg = "Access log doesn't exist in your Xray Configs"
-		isAvailable = false
+	if accessLogPath == "none" || accessLogPath == "" {
+		if iplimitActive {
+			logger.Warning("Access log path is not set, and IP limit is active. Please configure the access log path.")
+		}
+		return false
 	}
 
-	if handleWarning && warningMsg != "" {
-		logger.Warning(warningMsg)
-	}
-	return isAvailable
+	return true
 }
 
 func (j *CheckClientIpJob) checkError(e error) {

@@ -1,4 +1,4 @@
-[English](/README.md) | [Chinese](/README.zh.md) | [Español](/README.es_ES.md)
+[English](/README.md) | [中文](/README.zh_CN.md) | [Español](/README.es_ES.md) | [Русский](/README.ru_RU.md)
 
 <p align="center"><a href="#"><img src="./media/3X-UI.png" alt="Image"></a></p>
 
@@ -32,10 +32,10 @@ bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.
 
 ## Install Custom Version
 
-To install your desired version, add the version to the end of the installation command. e.g., ver `v2.3.13`:
+To install your desired version, add the version to the end of the installation command. e.g., ver `v2.4.1`:
 
 ```
-bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh) v2.3.13
+bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh) v2.4.1
 ```
 
 ## SSL Certificate
@@ -169,6 +169,8 @@ systemctl restart x-ui
    docker compose up -d
    ```
 
+  Add ```--pull always``` flag to make docker automatically recreate container if a newer image is pulled. See https://docs.docker.com/reference/cli/docker/container/run/#pull for more info.
+
    **OR**
 
    ```sh
@@ -202,6 +204,41 @@ systemctl restart x-ui
 
 </details>
 
+## Nginx Settings
+<details>
+  <summary>Click for Reverse Proxy Configuration</summary>
+
+#### Nginx Reverse Proxy
+```nginx
+location / {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header Range $http_range;
+    proxy_set_header If-Range $http_if_range; 
+    proxy_redirect off;
+    proxy_pass http://127.0.0.1:2053;
+}
+```
+
+#### Nginx sub-path
+- Ensure that the "URI Path" in the `/sub` panel settings is the same.
+- The `url` in the panel settings needs to end with `/`.   
+
+```nginx
+location /sub {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header Range $http_range;
+    proxy_set_header If-Range $http_if_range; 
+    proxy_redirect off;
+    proxy_pass http://127.0.0.1:2053;
+}
+```
+</details>
 
 ## Recommended OS
 
@@ -248,9 +285,10 @@ Our platform offers compatibility with a diverse range of architectures and devi
 - Russian
 - Vietnamese
 - Spanish
-- Indonesian 
+- Indonesian
 - Ukrainian
 - Turkish
+- Português (Brazil)
 
 
 ## Features
@@ -323,17 +361,6 @@ Our platform offers compatibility with a diverse range of architectures and devi
 
 WARP is built-in, and no additional installation is required. Simply turn on the necessary configuration in the panel.
 
-**For versions before `v2.1.0`:**
-
-1. Run the `x-ui` command in the terminal, then choose `WARP Management`.
-2. You will see the following options:
-
-   - **Account Type (free, plus, team):** Choose the appropriate account type.
-   - **Enable/Disable WireProxy:** Toggle WireProxy on or off.
-   - **Uninstall WARP:** Remove the WARP application.
-
-3. Configure the settings as needed in the panel.
-
 </details>
 
 ## IP Limit
@@ -363,7 +390,7 @@ To enable the IP Limit functionality, you need to install `fail2ban` and its req
    - **Uninstall Fail2ban:** Uninstall Fail2ban with configuration.
 
 3. Add a path for the access log on the panel by setting `Xray Configs/log/Access log` to `./access.log` then save and restart xray.
-   
+
 - **For versions before `v2.1.3`:**
   - You need to set the access log path manually in your Xray configuration:
 
@@ -415,19 +442,19 @@ The web panel supports daily traffic, panel login, database backup, system statu
 - Threshold for Expiration time and Traffic to report in advance
 - Support client report menu if client's telegram username added to the user's configurations
 - Support telegram traffic report searched with UUID (VMESS/VLESS) or Password (TROJAN) - anonymously
-- Menu based bot
-- Search client by email ( only admin )
+- Menu-based bot
+- Search client by email (only admin)
 - Check all inbounds
 - Check server status
 - Check depleted users
 - Receive backup by request and in periodic reports
-- Multi language bot
+- Multi-language bot
 
 ### Setting up Telegram bot
 
 - Start [Botfather](https://t.me/BotFather) in your Telegram account:
     ![Botfather](./media/botfather.png)
-  
+
 - Create a new Bot using /newbot command: It will ask you 2 questions, A name and a username for your bot. Note that the username has to end with the word "bot".
     ![Create new bot](./media/newbot.png)
 
